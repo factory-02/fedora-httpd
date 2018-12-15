@@ -12,7 +12,7 @@
 
 Name:                           httpd
 Version:                        2.4.37
-Release:                        5%{?dist}
+Release:                        6%{?dist}
 Epoch:                          99
 Summary:                        Apache HTTP Server
 Group:                          System Environment/Daemons
@@ -799,6 +799,9 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
+* Sat Dec 15 2018 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-6
+- Update from METASTORE.
+
 * Thu Nov 22 2018 Luboš Uhliarik <luhliari@redhat.com> - 2.4.37-5
 - Resolves: #1652678 - TLS connection allowed while all protocols are forbidden
 
