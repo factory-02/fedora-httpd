@@ -415,6 +415,10 @@ for f in 00-base.conf 00-mpm.conf 00-lua.conf 01-cgi.conf 00-dav.conf \
     $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.modules.d/$f
 done
 
+# METASTORE - [
+mkdir $RPM_BUILD_ROOT%{_sysconfdir}/httpd/vhosts.d
+# ] - METASTORE
+
 sed -i '/^#LoadModule mpm_%{mpm}_module /s/^#//' \
     $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.modules.d/00-mpm.conf
 touch -r $RPM_SOURCE_DIR/00-mpm.conf \
@@ -747,6 +751,9 @@ exit $rv
 %dir %{contentdir}/icons
 %attr(755,root,root) %dir %{_unitdir}/httpd.service.d
 %attr(755,root,root) %dir %{_unitdir}/httpd.socket.d
+# METASTORE - [
+%dir %{_sysconfdir}/httpd/vhosts.d
+# ] - METASTORE
 
 %files tools
 %{_bindir}/*
