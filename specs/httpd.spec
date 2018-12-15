@@ -13,7 +13,6 @@
 Name:                           httpd
 Version:                        2.4.37
 Release:                        6%{?dist}
-Epoch:                          99
 Summary:                        Apache HTTP Server
 Group:                          System Environment/Daemons
 License:                        ASL 2.0
@@ -799,7 +798,7 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
-* Sat Dec 15 2018 Kitsune Solar <kitsune.solar@gmail.com> - 99:2.4.37-6
+* Sat Dec 15 2018 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-6
 - Update from METASTORE.
 
 * Thu Nov 22 2018 Luboš Uhliarik <luhliari@redhat.com> - 2.4.37-5
