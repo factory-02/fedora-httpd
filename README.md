@@ -9,7 +9,7 @@ SPEC-файл для создания RPM-пакета **httpd**.
 
 ## Авторы
 
-- [**Kitsune Solar**](https://kitsune.solar/) - мейнтейнер.
+- [Kitsune Solar](https://kitsune.solar/) - мейнтейнер.
 
 ## Ссылки
 

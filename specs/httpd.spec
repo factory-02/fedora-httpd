@@ -12,7 +12,7 @@
 
 Name:                           httpd
 Version:                        2.4.37
-Release:                        6%{?dist}
+Release:                        7%{?dist}
 Summary:                        Apache HTTP Server
 Group:                          System Environment/Daemons
 License:                        ASL 2.0
@@ -178,7 +178,7 @@ Group:                          System Environment/Daemons
 Summary:                        Tools for use with the Apache HTTP Server
 
 %description tools
-The httpd-tools package contains tools which can be used with 
+The httpd-tools package contains tools which can be used with
 the Apache HTTP Server.
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -456,7 +456,7 @@ install -m 644 -p $RPM_SOURCE_DIR/htcacheclean.sysconf \
     $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/htcacheclean
 
 # tmpfiles.d configuration
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d 
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d
 install -m 644 -p $RPM_SOURCE_DIR/httpd.tmpfiles \
     $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d/httpd.conf
 
@@ -805,6 +805,10 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
+* Mon Dec 17 2018 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-7
+- Fix SSL.
+- Change "index.html".
+
 * Sat Dec 15 2018 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-6
 - Update from METASTORE.
 
