@@ -21,6 +21,7 @@ SPEC-файл для создания RPM-пакета **httpd**.
 - [Кодекс поведения (RU)](CODE_OF_CONDUCT.ru.md)
 - [Правила участия в разработке](CONTRIBUTING.md)
 - [Сообщить о проблеме](https://github.com/factory-02/fedora-httpd/issues)
+- [Сборочная платформа](https://copr.fedorainfracloud.org/coprs/metastore/fedora-httpd/)
 
 ## Платформа
 
