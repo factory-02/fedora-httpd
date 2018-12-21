@@ -12,7 +12,7 @@
 
 Name:                           httpd
 Version:                        2.4.37
-Release:                        7%{?dist}
+Release:                        8%{?dist}
 Summary:                        Apache HTTP Server
 Group:                          System Environment/Daemons
 License:                        ASL 2.0
@@ -805,6 +805,9 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
+* Fri Dec 21 2018 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-8
+- Fix typos.
+
 * Mon Dec 17 2018 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-7
 - Fix SSL.
 - Change "index.html".

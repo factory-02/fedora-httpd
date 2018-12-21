@@ -33,7 +33,7 @@
     <refentrytitle>httpd.conf</refentrytitle>
     <manvolnum>5</manvolnum>
   </refmeta>
-  
+
   <refnamediv>
     <refname>httpd.conf</refname>
     <refpurpose>Configuration files for httpd</refpurpose>
@@ -41,12 +41,12 @@
 
   <refsynopsisdiv>
     <para>
-      <filename>/etc/httpd/conf/httpd.conf</filename>, 
+      <filename>/etc/httpd/conf/httpd.conf</filename>,
       <filename>/etc/httpd/conf.modules.d</filename>,
       <filename>/etc/httpd/conf.d</filename>
     </para>
   </refsynopsisdiv>
-  
+
   <refsect1>
     <title>Description</title>
 
@@ -71,7 +71,7 @@
       appropriate <option>LoadModule</option> directive so that module
       is loaded by default.</para>
 
-      <para>Some notable configured defaults are:.</para>
+      <para>Some notable configured defaults are:</para>
 
       <variablelist>
         <varlistentry>
@@ -81,7 +81,7 @@
         </varlistentry>
         <varlistentry>
           <term><option>Listen 80</option></term>
-          <listitem><para>The daemon lists on TCP port 80.</para></listitem>
+          <listitem><para>The daemon listens on TCP port 80.</para></listitem>
         </varlistentry>
         <varlistentry>
           <term><option>ErrorLog "logs/error_log"</option></term>
@@ -92,7 +92,7 @@
           <term><option>ScriptAlias /cgi-bin/ "@DOCROOT@/cgi-bin/"</option></term>
           <listitem><para>CGI scripts are served via the URL-path <option>/cgi-bin/</option>.</para></listitem>
         </varlistentry>
-        
+
       </variablelist>
 
       <para>To remove any of the default configuration provided in
@@ -100,7 +100,7 @@
       file rather than removing it from the filesystem, otherwise it
       may be restored to the original when the package which provides
       it is upgraded.</para>
-      
+
     </refsect2>
 
     <refsect2>
@@ -124,10 +124,10 @@
       command: <command>semanage boolean -m --on
       httpd_graceful_shutdown</command></para>
     </refsect2>
-    
+
     <refsect2>
       <title>Module configuration files</title>
-      
+
       <para>Module configuration files are provided in the
       <filename>/etc/httpd/conf.modules.d/</filename> directory.  Filenames
       in this directory are by convention prefixed with two digit numeric
@@ -139,7 +139,7 @@
       processed.</para>
 
       <para>Other provided configuration files are listed below.
-      
+
       <variablelist>
         <varlistentry>
           <term><filename>/etc/httpd/conf.modules.d/00-base.conf</filename></term>
@@ -147,14 +147,14 @@
           <command>httpd</command> which are all loaded by
           default.</para></listitem>
         </varlistentry>
-        
+
         <varlistentry>
           <term><filename>/etc/httpd/conf.modules.d/00-optional.conf</filename></term>
           <listitem><para>The set of non-core modules included with
           <command>httpd</command> which are <emphasis>not</emphasis>
           loaded by default.</para></listitem>
         </varlistentry>
-        
+
 
         <varlistentry>
           <term><filename>/etc/httpd/conf.modules.d/00-systemd.conf</filename></term>
@@ -166,7 +166,7 @@
       </variablelist>
       </para>
     </refsect2>
-        
+
     <refsect2>
       <title>Other configuration files</title>
 
@@ -214,10 +214,10 @@
           <citerefentry><refentrytitle>httpd-init.service</refentrytitle><manvolnum>8</manvolnum></citerefentry>
           for more information.</para></listitem>
         </varlistentry>
-        
+
       </variablelist></para>
     </refsect2>
-    
+
     <refsect2>
       <title>Instantiated services</title>
 
@@ -230,23 +230,23 @@
       start httpd using the configuration file
       <filename>/etc/httpd/conf/foobar.conf</filename>.  See <citerefentry><refentrytitle>httpd@.service</refentrytitle><manvolnum>8</manvolnum></citerefentry> for more information.</para>
     </refsect2>
-      
+
   </refsect1>
   <refsect1>
     <title>Files</title>
 
     <para>
-      <filename>/etc/httpd/conf/httpd.conf</filename>, 
-      <filename>/etc/httpd/conf.d</filename>, 
+      <filename>/etc/httpd/conf/httpd.conf</filename>,
+      <filename>/etc/httpd/conf.d</filename>,
       <filename>/etc/httpd/conf.modules.d</filename>
     </para>
   </refsect1>
-  
+
   <refsect1>
     <title>See also</title>
 
     <para>
-    <citerefentry><refentrytitle>httpd</refentrytitle><manvolnum>8</manvolnum></citerefentry>, 
+    <citerefentry><refentrytitle>httpd</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
     <citerefentry><refentrytitle>httpd.service</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
     <ulink url="https://httpd.apache.org/docs/2.4/configuring.html"/>,
     <ulink url="https://httpd.apache.org/docs/2.4/mod/directives.html"/>
