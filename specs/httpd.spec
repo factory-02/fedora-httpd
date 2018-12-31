@@ -12,7 +12,7 @@
 
 Name:                           httpd
 Version:                        2.4.37
-Release:                        8%{?dist}
+Release:                        9%{?dist}
 Summary:                        Apache HTTP Server
 Group:                          System Environment/Daemons
 License:                        ASL 2.0
@@ -65,6 +65,7 @@ Source44:                       httpd@.service
 Source900:                      https://www.apache.org/dist/httpd/httpd-%{version}.tar.bz2.asc
 # Theme: index.theme.css
 Source910:                      index.theme.css
+Source911:                      10-listen8081.conf
 # ] - METASTORE
 
 # build/scripts patches
@@ -433,6 +434,11 @@ mkdir $RPM_BUILD_ROOT%{_unitdir}/httpd.socket.d
 install -m 644 -p $RPM_SOURCE_DIR/10-listen443.conf \
     $RPM_BUILD_ROOT%{_unitdir}/httpd.socket.d/10-listen443.conf
 
+# METASTORE - [
+install -m 644 -p $RPM_SOURCE_DIR/10-listen8081.conf \
+    $RPM_BUILD_ROOT%{_unitdir}/httpd.socket.d/10-listen8081.conf
+# ] - METASTORE
+
 for f in welcome.conf ssl.conf manual.conf userdir.conf; do
     install -m 644 -p $RPM_SOURCE_DIR/$f \
     $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/$f
@@ -775,6 +781,11 @@ exit $rv
 %{_libexecdir}/httpd-ssl-pass-dialog
 %{_libexecdir}/httpd-ssl-gencerts
 %{_unitdir}/httpd.socket.d/10-listen443.conf
+
+# METASTORE - [
+%{_unitdir}/httpd.socket.d/10-listen8081.conf
+# ] - METASTORE
+
 %{_mandir}/man8/httpd-init.*
 
 %files -n mod_proxy_html
@@ -805,6 +816,9 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
+* Mon Dec 31 2018 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-9
+- Change default ports 80, 443 to 8080, 8081.
+
 * Fri Dec 21 2018 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-8
 - Fix typos.
 
