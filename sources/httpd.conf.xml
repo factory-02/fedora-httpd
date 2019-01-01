@@ -80,8 +80,8 @@
           is served.</para></listitem>
         </varlistentry>
         <varlistentry>
-          <term><option>Listen 80</option></term>
-          <listitem><para>The daemon listens on TCP port 80.</para></listitem>
+          <term><option>Listen 127.0.0.1:8080</option></term>
+          <listitem><para>The daemon listens on TCP 127.0.0.1:8080.</para></listitem>
         </varlistentry>
         <varlistentry>
           <term><option>ErrorLog "logs/error_log"</option></term>
@@ -207,7 +207,7 @@
           <term><filename>/etc/httpd/conf.d/ssl.conf</filename> (present only if <option>mod_ssl</option> is installed)</term>
           <listitem><para>This file configures a TLS
           <option>VirtualHost</option> listening on port
-          <option>443</option>.  If the default configuration is used,
+          <option>8081</option>.  If the default configuration is used,
           the referenced test certificate and private key are
           generated the first time <command>httpd.service</command> is
           started; see
