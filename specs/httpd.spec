@@ -69,7 +69,7 @@ Source911:                      index.theme.js
 # Listen port
 Source920:                      10-listen8081.conf
 # Custom config
-Source921:                      00-httpd.custom.conf
+Source921:                      httpd.custom.conf
 # ] - METASTORE
 
 # build/scripts patches
