@@ -63,9 +63,11 @@ Source44:                       httpd@.service
 # METASTORE - [
 # Signature
 Source900:                      https://www.apache.org/dist/httpd/httpd-%{version}.tar.bz2.asc
-# Theme: index.theme.css
+# Theme: index.theme.*
 Source910:                      index.theme.css
-Source911:                      10-listen8081.conf
+Source911:                      index.theme.js
+# Listen port
+Source920:                      10-listen8081.conf
 # ] - METASTORE
 
 # build/scripts patches
@@ -505,9 +507,14 @@ install -m 644 -p $RPM_SOURCE_DIR/index.html \
 install -m 644 -p docs/server-status/* \
     $RPM_BUILD_ROOT%{contentdir}/server-status
 
-# METASTORE - [ index.theme.css
+# METASTORE - [
+# index.theme.css
 install -m 644 -p $RPM_SOURCE_DIR/index.theme.css \
     $RPM_BUILD_ROOT%{contentdir}/noindex/index.theme.css
+
+# index.theme.js
+install -m 644 -p $RPM_SOURCE_DIR/index.theme.js \
+    $RPM_BUILD_ROOT%{contentdir}/noindex/index.theme.js
 # ] - METASTORE
 
 rm -rf %{contentdir}/htdocs
@@ -725,8 +732,12 @@ exit $rv
 %{contentdir}/noindex/index.html
 %{contentdir}/server-status/*
 
-# METASTORE - [ index.theme.css
+# METASTORE - [
+# index.theme.css
 %{contentdir}/noindex/index.theme.css
+
+# index.theme.js
+%{contentdir}/noindex/index.theme.js
 # ] - METASTORE
 
 %attr(0710,root,apache) %dir /run/httpd
@@ -816,8 +827,9 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
-* Mon Dec 31 2018 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-12
+* Wed Jan 02 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-12
 - Fix loading modules.
+- Change "index.html".
 
 * Mon Dec 31 2018 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-11
 - Update configurations from METADATA.
