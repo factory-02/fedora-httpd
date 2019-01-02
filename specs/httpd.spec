@@ -12,7 +12,7 @@
 
 Name:                           httpd
 Version:                        2.4.37
-Release:                        13%{?dist}
+Release:                        14%{?dist}
 Summary:                        Apache HTTP Server
 Group:                          System Environment/Daemons
 License:                        ASL 2.0
@@ -68,8 +68,6 @@ Source910:                      index.theme.css
 Source911:                      index.theme.js
 # Listen port
 Source920:                      10-listen8081.conf
-# Custom config
-Source921:                      httpd.custom.conf
 # ] - METASTORE
 
 # build/scripts patches
@@ -461,12 +459,6 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/*.conf
 install -m 644 -p $RPM_SOURCE_DIR/httpd.conf \
     $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf
 
-# METASTORE - [
-# Custom config.
-install -m 644 -p %{SOURCE921} \
-    $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/00-httpd.custom.conf
-# ] - METASTORE
-
 mkdir $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
 install -m 644 -p $RPM_SOURCE_DIR/htcacheclean.sysconf \
     $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/htcacheclean
@@ -690,11 +682,6 @@ exit $rv
 %config(noreplace) %{_sysconfdir}/httpd/conf/httpd.conf
 %config(noreplace) %{_sysconfdir}/httpd/conf/magic
 
-# METASTORE - [
-# Custom config.
-%config(noreplace) %{_sysconfdir}/httpd/conf.d/00-httpd.custom.conf
-# ] - METASTORE
-
 %config(noreplace) %{_sysconfdir}/logrotate.d/httpd
 
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/*.conf
@@ -840,6 +827,9 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
+* Wed Jan 02 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-14
+- Update configurations from METADATA.
+
 * Wed Jan 02 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-13
 - Update configurations from METADATA.
 
