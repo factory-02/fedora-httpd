@@ -12,7 +12,7 @@
 
 Name:                           httpd
 Version:                        2.4.37
-Release:                        12%{?dist}
+Release:                        13%{?dist}
 Summary:                        Apache HTTP Server
 Group:                          System Environment/Daemons
 License:                        ASL 2.0
@@ -68,6 +68,8 @@ Source910:                      index.theme.css
 Source911:                      index.theme.js
 # Listen port
 Source920:                      10-listen8081.conf
+# Custom config
+Source921:                      00-httpd.custom.conf
 # ] - METASTORE
 
 # build/scripts patches
@@ -437,7 +439,7 @@ install -m 644 -p $RPM_SOURCE_DIR/10-listen443.conf \
     $RPM_BUILD_ROOT%{_unitdir}/httpd.socket.d/10-listen443.conf
 
 # METASTORE - [
-install -m 644 -p $RPM_SOURCE_DIR/10-listen8081.conf \
+install -m 644 -p %{SOURCE920} \
     $RPM_BUILD_ROOT%{_unitdir}/httpd.socket.d/10-listen8081.conf
 # ] - METASTORE
 
@@ -458,6 +460,12 @@ rm -v docs/conf/extra/httpd-{ssl,userdir}.conf
 rm $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/*.conf
 install -m 644 -p $RPM_SOURCE_DIR/httpd.conf \
     $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf/httpd.conf
+
+# METASTORE - [
+# Custom config.
+install -m 644 -p %{SOURCE921} \
+    $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/00-httpd.custom.conf
+# ] - METASTORE
 
 mkdir $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
 install -m 644 -p $RPM_SOURCE_DIR/htcacheclean.sysconf \
@@ -509,11 +517,11 @@ install -m 644 -p docs/server-status/* \
 
 # METASTORE - [
 # index.theme.css
-install -m 644 -p $RPM_SOURCE_DIR/index.theme.css \
+install -m 644 -p %{SOURCE910} \
     $RPM_BUILD_ROOT%{contentdir}/noindex/index.theme.css
 
 # index.theme.js
-install -m 644 -p $RPM_SOURCE_DIR/index.theme.js \
+install -m 644 -p %{SOURCE911} \
     $RPM_BUILD_ROOT%{contentdir}/noindex/index.theme.js
 # ] - METASTORE
 
@@ -682,6 +690,11 @@ exit $rv
 %config(noreplace) %{_sysconfdir}/httpd/conf/httpd.conf
 %config(noreplace) %{_sysconfdir}/httpd/conf/magic
 
+# METASTORE - [
+# Custom config.
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/00-httpd.custom.conf
+# ] - METASTORE
+
 %config(noreplace) %{_sysconfdir}/logrotate.d/httpd
 
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/*.conf
@@ -827,6 +840,9 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
+* Wed Jan 02 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-13
+- Update configurations from METADATA.
+
 * Wed Jan 02 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-12
 - Fix loading modules.
 - Change "index.html".
