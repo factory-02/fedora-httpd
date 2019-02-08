@@ -59,7 +59,7 @@ Source41:                       htcacheclean.sysconf
 Source42:                       httpd-init.service
 Source43:                       httpd-ssl-gencerts
 Source44:                       httpd@.service
-Source45: config.layout
+Source45:                       config.layout
 
 # METASTORE - [
 # Signature
