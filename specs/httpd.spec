@@ -11,8 +11,8 @@
 %endif
 
 Name:                           httpd
-Version:                        2.4.37
-Release:                        14%{?dist}
+Version:                        2.4.38
+Release:                        6%{?dist}
 Summary:                        Apache HTTP Server
 Group:                          System Environment/Daemons
 License:                        ASL 2.0
@@ -59,6 +59,7 @@ Source41:                       htcacheclean.sysconf
 Source42:                       httpd-init.service
 Source43:                       httpd-ssl-gencerts
 Source44:                       httpd@.service
+Source45: config.layout
 
 # METASTORE - [
 # Signature
@@ -88,9 +89,10 @@ Patch29:                        httpd-2.4.33-systemd.patch
 Patch30:                        httpd-2.4.4-cachehardmax.patch
 Patch31:                        httpd-2.4.33-sslmultiproxy.patch
 Patch34:                        httpd-2.4.17-socket-activation.patch
-Patch36:                        httpd-2.4.33-r1830819+.patch
+Patch36:                        httpd-2.4.38-r1830819+.patch
 Patch38:                        httpd-2.4.34-sslciphdefault.patch
 Patch39:                        httpd-2.4.37-sslprotdefault.patch
+Patch40:                        httpd-2.4.37-fips-segfault.patch
 
 # Bug fixes
 # https://bugzilla.redhat.com/show_bug.cgi?id=1397243
@@ -128,7 +130,6 @@ web server.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package devel
-Group:                          Development/Libraries
 Summary:                        Development interfaces for the Apache HTTP Server
 Requires:                       apr-devel, apr-util-devel, pkgconfig
 Requires:                       httpd = %{version}-%{release}
@@ -147,7 +148,6 @@ to install this package.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package manual
-Group:                          Documentation
 Summary:                        Documentation for the Apache HTTP Server
 Requires:                       httpd = %{version}-%{release}
 BuildArch:                      noarch
@@ -162,7 +162,6 @@ also be found at https://httpd.apache.org/docs/2.4/.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package filesystem
-Group:                          System Environment/Daemons
 Summary:                        The basic directory layout for the Apache HTTP Server
 BuildArch:                      noarch
 Requires(pre):                  /usr/sbin/useradd
@@ -177,7 +176,6 @@ for the directories.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package tools
-Group:                          System Environment/Daemons
 Summary:                        Tools for use with the Apache HTTP Server
 
 %description tools
@@ -189,7 +187,6 @@ the Apache HTTP Server.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package -n mod_ssl
-Group:                          System Environment/Daemons
 Summary:                        SSL/TLS module for the Apache HTTP Server
 Epoch:                          1
 BuildRequires:                  openssl-devel
@@ -209,7 +206,6 @@ Security (TLS) protocols.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package -n mod_md
-Group:                          System Environment/Daemons
 Summary:                        Certificate provisioning using ACME for the Apache HTTP Server
 Requires:                       httpd = 0:%{version}-%{release}, httpd-mmn = %{mmnisa}
 BuildRequires:                  jansson-devel, libcurl-devel
@@ -226,7 +222,6 @@ renewal of certificates before they expire.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package -n mod_proxy_html
-Group:                          System Environment/Daemons
 Summary:                        HTML and XML content filters for the Apache HTTP Server
 Requires:                       httpd = 0:%{version}-%{release}, httpd-mmn = %{mmnisa}
 BuildRequires:                  libxml2-devel
@@ -242,7 +237,6 @@ transform and modify HTML and XML content.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package -n mod_ldap
-Group:                          System Environment/Daemons
 Summary:                        LDAP authentication modules for the Apache HTTP Server
 Requires:                       httpd = 0:%{version}-%{release}, httpd-mmn = %{mmnisa}
 Requires:                       apr-util-ldap
@@ -256,7 +250,6 @@ authentication to the Apache HTTP Server.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package -n mod_session
-Group:                          System Environment/Daemons
 Summary:                        Session interface for the Apache HTTP Server
 Requires:                       httpd = 0:%{version}-%{release}, httpd-mmn = %{mmnisa}
 
@@ -290,6 +283,7 @@ interface for storing and accessing per-user session data.
 %patch36 -p1 -b .r1830819+
 %patch38 -p1 -b .sslciphdefault
 %patch39 -p1 -b .sslprotdefault
+%patch40 -p1 -b .fipsseg
 
 %patch58 -p1 -b .r1738878
 %patch60 -p1 -b .enable-sslv3
@@ -318,6 +312,9 @@ if test "x${vmmn}" != "x%{mmn}"; then
     : Update the mmn macro and rebuild.
     exit 1
 fi
+
+# Provide default layout
+cp $RPM_SOURCE_DIR/config.layout .
 
 sed '
 s,@MPM@,%{mpm},g
@@ -470,7 +467,7 @@ install -m 644 -p $RPM_SOURCE_DIR/httpd.tmpfiles \
 
 # Other directories
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/dav \
-         $RPM_BUILD_ROOT%{_localstatedir}/lib/httpd \
+         $RPM_BUILD_ROOT%{_localstatedir}/lib/httpd/state \
          $RPM_BUILD_ROOT/run/httpd/htcacheclean
 
 # Substitute in defaults which are usually done (badly) by "make install"
@@ -543,8 +540,9 @@ ln -s ../../pixmaps/poweredby.png \
     $RPM_BUILD_ROOT%{contentdir}/icons/poweredby.png
 
 # symlinks for /etc/httpd
+rmdir $RPM_BUILD_ROOT/etc/httpd/{state,run}
 ln -s ../..%{_localstatedir}/log/httpd $RPM_BUILD_ROOT/etc/httpd/logs
-ln -s ../..%{_localstatedir}/lib/httpd $RPM_BUILD_ROOT/etc/httpd/state
+ln -s ../..%{_localstatedir}/lib/httpd/state $RPM_BUILD_ROOT/etc/httpd/state
 ln -s /run/httpd $RPM_BUILD_ROOT/etc/httpd/run
 ln -s ../..%{_libdir}/httpd/modules $RPM_BUILD_ROOT/etc/httpd/modules
 
@@ -827,6 +825,21 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
+* Sat Feb 09 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.38-6
+- Update configurations from METADATA.
+
+* Tue Feb 05 2019 Lubos Uhliarik <luhliari@redhat.com> - 2.4.38-5
+- segmentation fault fix (FIPS)
+
+* Tue Feb  5 2019 Joe Orton <jorton@redhat.com> - 2.4.38-4
+- use serverroot-relative statedir, rundir by default
+
+* Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.38-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
+* Wed Jan 23 2019 Lubos Uhliarik <luhliari@redhat.com> - 2.4.38-2
+- new version 2.4.38 (#1668125)
+
 * Fri Jan 04 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.37-14
 - Reconfigure SSL generator.
 
