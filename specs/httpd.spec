@@ -825,6 +825,9 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
+* Sun Feb 10 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.38-7
+- Reconfigure SSL generator.
+
 * Sat Feb 09 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.38-6
 - Update configurations from METADATA.
 
