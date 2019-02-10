@@ -14,7 +14,6 @@ Name:                           httpd
 Version:                        2.4.38
 Release:                        10%{?dist}
 Summary:                        Apache HTTP Server
-Group:                          System Environment/Daemons
 License:                        ASL 2.0
 URL:                            https://httpd.apache.org/
 
