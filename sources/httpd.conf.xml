@@ -210,9 +210,7 @@
           <option>8081</option>.  If the default configuration is used,
           the referenced test certificate and private key are
           generated the first time <command>httpd.service</command> is
-          started; see
-          <citerefentry><refentrytitle>httpd-init.service</refentrytitle><manvolnum>8</manvolnum></citerefentry>
-          for more information.</para></listitem>
+          started.</para></listitem>
         </varlistentry>
 
       </variablelist></para>
