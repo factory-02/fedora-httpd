@@ -793,8 +793,6 @@ exit $rv
 %{_unitdir}/httpd.socket.d/10-listen8081.conf
 # ] - METASTORE
 
-%{_mandir}/man8/httpd-init.*
-
 %files -n mod_proxy_html
 %{_libdir}/httpd/modules/mod_proxy_html.so
 %{_libdir}/httpd/modules/mod_xml2enc.so
