@@ -12,7 +12,7 @@
 
 Name:                           httpd
 Version:                        2.4.38
-Release:                        7%{?dist}
+Release:                        8%{?dist}
 Summary:                        Apache HTTP Server
 Group:                          System Environment/Daemons
 License:                        ASL 2.0
@@ -825,6 +825,9 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
+* Sun Feb 10 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.38-8
+- Reconfigure SSL generator.
+
 * Sun Feb 10 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.38-7
 - Reconfigure SSL generator.
 
