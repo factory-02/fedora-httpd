@@ -12,7 +12,7 @@
 
 Name:                           httpd
 Version:                        2.4.38
-Release:                        9%{?dist}
+Release:                        10%{?dist}
 Summary:                        Apache HTTP Server
 Group:                          System Environment/Daemons
 License:                        ASL 2.0
@@ -56,7 +56,7 @@ Source33:                       htcacheclean.service.xml
 Source34:                       httpd.conf.xml
 Source40:                       htcacheclean.service
 Source41:                       htcacheclean.sysconf
-#Source42:                      httpd-init.service
+Source42:                       httpd-init.service
 Source43:                       httpd-ssl-gencerts
 Source44:                       httpd@.service
 Source45:                       config.layout
@@ -395,7 +395,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 # Install systemd service files
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 for s in httpd.service htcacheclean.service httpd.socket \
-    httpd@.service; do
+    httpd@.service httpd-init.service; do
     install -p -m 644 $RPM_SOURCE_DIR/${s} \
     $RPM_BUILD_ROOT%{_unitdir}/${s}
 done
@@ -569,7 +569,7 @@ install -m 644 -p $RPM_SOURCE_DIR/httpd.logrotate \
 
 # Install man pages
 install -d $RPM_BUILD_ROOT%{_mandir}/man8 $RPM_BUILD_ROOT%{_mandir}/man5
-install -m 644 -p httpd.service.8 httpd.socket.8 \
+install -m 644 -p httpd.service.8 httpd-init.service.8 httpd.socket.8 \
     httpd@.service.8 htcacheclean.service.8 \
     $RPM_BUILD_ROOT%{_mandir}/man8
 install -m 644 -p httpd.conf.5 \
@@ -748,6 +748,7 @@ exit $rv
 
 %{_mandir}/man8/*
 %{_mandir}/man5/*
+%exclude %{_mandir}/man8/httpd-init.*
 
 %{_unitdir}/httpd.service
 %{_unitdir}/httpd@.service
@@ -785,6 +786,7 @@ exit $rv
 %config(noreplace) %{_sysconfdir}/httpd/conf.modules.d/00-ssl.conf
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/ssl.conf
 %attr(0700,apache,root) %dir %{_localstatedir}/cache/httpd/ssl
+%{_unitdir}/httpd-init.service
 %{_libexecdir}/httpd-ssl-pass-dialog
 %{_libexecdir}/httpd-ssl-gencerts
 %{_unitdir}/httpd.socket.d/10-listen443.conf
@@ -792,6 +794,8 @@ exit $rv
 # METASTORE - [
 %{_unitdir}/httpd.socket.d/10-listen8081.conf
 # ] - METASTORE
+
+%{_mandir}/man8/httpd-init.*
 
 %files -n mod_proxy_html
 %{_libdir}/httpd/modules/mod_proxy_html.so
@@ -821,6 +825,9 @@ exit $rv
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
+* Sun Feb 11 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.38-10
+- Reconfigure SSL generator.
+
 * Sun Feb 10 2019 Kitsune Solar <kitsune.solar@gmail.com> - 2.4.38-9
 - Reconfigure SSL generator.
 
